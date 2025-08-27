@@ -1,13 +1,12 @@
 // ====================
 // Part 1: Variables and Conditionals
 // ====================
-let userName = "George"; 
 let isStudent = true;
 
 if (isStudent) {
-  console.log(userName + " is a student learning JavaScript!");
+  console.log("You are a student learning JavaScript!");
 } else {
-  console.log(userName + " is not a student.");
+  console.log("You are not a student.");
 }
 
 // ====================
@@ -28,12 +27,12 @@ function addNumbers(a, b) {
 // Part 3: Loop Examples
 // ====================
 
-// Example 1: For loop
+// Example 1: For loop (console output)
 for (let i = 1; i <= 5; i++) {
   console.log("For loop count: " + i);
 }
 
-// Example 2: While loop
+// Example 2: While loop (console output)
 let count = 1;
 while (count <= 3) {
   console.log("While loop count: " + count);
@@ -44,30 +43,79 @@ while (count <= 3) {
 // Part 4: DOM Interactions
 // ====================
 
-// 1. Change text content when button is clicked
+// 1. Greeting Button - takes user input
 document.getElementById("greet-btn").addEventListener("click", function() {
-  let greeting = generateGreeting(userName);
-  document.getElementById("greeting-output").textContent = greeting;
+  let name = document.getElementById("name-input").value;
+  let output = document.getElementById("greeting-output");
+
+  if (name.trim() === "") {
+    output.textContent = "⚠️ Please enter your name.";
+    output.style.color = "red";
+  } else {
+    let greeting = generateGreeting(name);
+    output.textContent = greeting;
+    output.style.color = "#0077cc";
+  }
 });
 
-// 2. Modify style dynamically
-document.getElementById("greet-btn").addEventListener("mouseover", function() {
-  this.style.backgroundColor = "#0077cc";
-  this.style.color = "white";
-});
-document.getElementById("greet-btn").addEventListener("mouseout", function() {
-  this.style.backgroundColor = "";
-  this.style.color = "";
+// 2. Sum Button - takes two numbers and calculates sum
+document.getElementById("sum-btn").addEventListener("click", function() {
+  let num1 = parseFloat(document.getElementById("num1").value);
+  let num2 = parseFloat(document.getElementById("num2").value);
+  let sumOutput = document.getElementById("sum-output");
+
+  if (isNaN(num1) || isNaN(num2)) {
+    sumOutput.textContent = "⚠️ Please enter valid numbers.";
+    sumOutput.style.color = "red";
+  } else {
+    let sumResult = addNumbers(num1, num2);
+    sumOutput.textContent = num1 + " + " + num2 + " = " + sumResult;
+    sumOutput.style.color = "#228b22";
+  }
 });
 
-// 3. Add loop results into the DOM
+// 3. African Countries Info (loop through objects and display)
+let africanCountries = [
+  {
+    name: "Nigeria",
+    capital: "Abuja",
+    population: "223 million",
+    economy: "Oil, agriculture, services"
+  },
+  {
+    name: "Kenya",
+    capital: "Nairobi",
+    population: "55 million",
+    economy: "Tourism, agriculture, technology"
+  },
+  {
+    name: "South Africa",
+    capital: "Pretoria (administrative)",
+    population: "60 million",
+    economy: "Mining, manufacturing, finance"
+  },
+  {
+    name: "Egypt",
+    capital: "Cairo",
+    population: "112 million",
+    economy: "Tourism, natural gas, textiles"
+  },
+  {
+    name: "Ethiopia",
+    capital: "Addis Ababa",
+    population: "126 million",
+    economy: "Coffee, agriculture, textiles"
+  }
+];
+
 let loopList = document.getElementById("loop-list");
-for (let i = 1; i <= 5; i++) {
+africanCountries.forEach(country => {
   let li = document.createElement("li");
-  li.textContent = "Item " + i + " (added with JS loop)";
+  li.innerHTML = `
+    <strong>${country.name}</strong>  
+    <br>Capital: ${country.capital}  
+    <br>Population: ${country.population}  
+    <br>Key Economy: ${country.economy}
+  `;
   loopList.appendChild(li);
-}
-
-// 4. Display result of addNumbers function on the webpage
-let sumResult = addNumbers(5, 10);
-document.getElementById("sum-output").textContent = "5 + 10 = " + sumResult;
+});
